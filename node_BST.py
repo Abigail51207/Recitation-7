@@ -51,11 +51,17 @@ class BinarySearchTree:
     
     # APPROACH 1 - Calling inorder()
     def kth_smallest_1(self, k):
-        pass
+        if k <= 0 or self.root is None:
+            return None
+        else:
+            node_lst = self.inorder()
+            if node_lst and len(node_lst) >= k:
+                return node_lst[k-1]
+            else:
+                return None
 
 
-
-
+   
     # APPROACH 2 - tree traversal + counter
     def kth_smallest_2(self, k):
         if self.root is None:
@@ -66,13 +72,40 @@ class BinarySearchTree:
 
 
     def _kth_helper(self, node, k):
-        pass
+        if node is None:
+            return None
+        left_result = self._kth_helper(node.left, k)
+        if left_result is not None:
+            return left_result
+        self.counter += 1
+        if self.counter == k:
+            return node.value
+        return self._kth_helper(node.right, k)
 
+bst = BinarySearchTree()
+values = [50, 92, 12, 94, 10, 16, 31, 5]
+for num in values:
+    bst.insert(num)
+bst.kth_smallest_1(7)
+print(bst.kth_smallest_1(7))
+#92
+bst.kth_smallest_1(2)
+print(bst.kth_smallest_1(2))
+#10
+bst.kth_smallest_1(6)
+print(bst.kth_smallest_1(6))
+#50
 
-
-
-
-
-
-
-    
+bst = BinarySearchTree()
+values = [50, 92, 12, 94, 10, 16, 31, 5]
+for num in values:
+    bst.insert(num)
+bst.kth_smallest_2(7)
+print(bst.kth_smallest_2(7))
+#92
+bst.kth_smallest_2(2)
+print(bst.kth_smallest_2(2))
+#10
+bst.kth_smallest_2(6)
+print(bst.kth_smallest_2(6))
+#50
